@@ -1,0 +1,179 @@
+
+### 35. api.http (for testing with REST clients)
+```http
+# Udemy Clone Backend API Testing
+# Use with REST Client extension in VS Code or import into Postman
+
+### Health Check
+GET http://localhost:5000/api/v1/health
+
+### Register a new student
+POST http://localhost:5000/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Student",
+  "email": "student@example.com",
+  "password": "password123",
+  "role": "student"
+}
+
+### Register a new instructor
+POST http://localhost:5000/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "name": "Jane Instructor",
+  "email": "instructor@example.com",
+  "password": "password123",
+  "role": "instructor"
+}
+
+### Login
+POST http://localhost:5000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "student@example.com",
+  "password": "password123"
+}
+
+### Get current user profile
+GET http://localhost:5000/api/v1/auth/me
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Get all courses (public)
+GET http://localhost:5000/api/v1/courses
+GET http://localhost:5000/api/v1/courses?category=web%20development&level=beginner
+
+### Get single course
+GET http://localhost:5000/api/v1/courses/COURSE_ID_HERE
+
+### Create a new course (instructor only)
+POST http://localhost:5000/api/v1/courses
+Authorization: Bearer INSTRUCTOR_TOKEN_HERE
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+Complete Node.js Bootcamp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+Learn Node.js from scratch with real-world projects...
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+49.99
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="category"
+
+web development
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="level"
+
+beginner
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="thumbnail"; filename="thumbnail.jpg"
+Content-Type: image/jpeg
+
+< ./path-to-thumbnail.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get course lectures
+GET http://localhost:5000/api/v1/lectures/course/COURSE_ID_HERE
+
+### Create a lecture (instructor only)
+POST http://localhost:5000/api/v1/lectures/course/COURSE_ID_HERE
+Authorization: Bearer INSTRUCTOR_TOKEN_HERE
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+Introduction to Node.js
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+Learn the basics of Node.js and its architecture
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="duration"
+
+25
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="isPreview"
+
+true
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="position"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="video"; filename="lecture1.mp4"
+Content-Type: video/mp4
+
+< ./path-to-video.mp4
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create payment intent
+POST http://localhost:5000/api/v1/payments/create-checkout
+Authorization: Bearer STUDENT_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "courseId": "COURSE_ID_HERE"
+}
+
+### Verify payment
+POST http://localhost:5000/api/v1/payments/verify
+Authorization: Bearer STUDENT_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "paymentIntentId": "PAYMENT_INTENT_ID_HERE"
+}
+
+### Get my payments
+GET http://localhost:5000/api/v1/payments/my-payments
+Authorization: Bearer STUDENT_TOKEN_HERE
+
+### Add course review (student only)
+POST http://localhost:5000/api/v1/courses/COURSE_ID_HERE/reviews
+Authorization: Bearer STUDENT_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "comment": "Excellent course! Learned a lot."
+}
+
+### Get course reviews
+GET http://localhost:5000/api/v1/courses/COURSE_ID_HERE/reviews
+
+### Update lecture progress
+PUT http://localhost:5000/api/v1/lectures/LECTURE_ID_HERE/progress
+Authorization: Bearer STUDENT_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "completed": true
+}
+
+### Get instructor courses
+GET http://localhost:5000/api/v1/courses/instructor/my-courses
+Authorization: Bearer INSTRUCTOR_TOKEN_HERE
+
+### Get user enrollments
+GET http://localhost:5000/api/v1/users/USER_ID_HERE/enrollments
+Authorization: Bearer TOKEN_HERE
+
+### Change password
+PUT http://localhost:5000/api/v1/auth/change-password
+Authorization: Bearer TOKEN_HERE
+Content-Type: application/json
+
+{
+  "currentPassword": "oldpassword",
+  "newPassword": "newpassword123"
+}
