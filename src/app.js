@@ -26,7 +26,7 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true,
 }));
-console.log("--->",process.env.MONGODB_URI)
+// console.log("--->",process.env.MONGODB_URI)
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

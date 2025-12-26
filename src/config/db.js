@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
-const { MONGODB_URI } = require('./env');
+const { MONGODB_URI, MONGODB_URI_PROD } = require('./env');
 // const { MONGODB_URI } = require('./env');
 
 // const MONGODB_URI = "mongodb://localhost:27017/udemy-clone"
-console.log("from db.js",MONGODB_URI)
+
+// console.log("from db.js",MONGODB_URI)
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.NODE_ENV === 'production' ? MONGODB_URI_PROD : MONGODB_URI, {
-      useNewUrlParser: true,
+    // const conn = await mongoose.connect(process.env.NODE_ENV === 'production' ? MONGODB_URI_PROD : MONGODB_URI, {
+    //   useNewUrlParser: true,
+    //   useUnifiedTopology: true,
+    // });
+    const conn = await mongoose.connect(MONGODB_URI_PROD,{
+        useNewUrlParser: true,
       useUnifiedTopology: true,
-    });
+    })
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
