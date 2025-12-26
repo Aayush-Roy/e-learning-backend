@@ -33,9 +33,18 @@ router.get('/:id/reviews', getCourseReviews);
 router.use(protect);
 
 // Instructor routes
-router.post('/', 
-  checkIsInstructor, 
-  upload.single('thumbnail'), 
+// router.post('/', 
+//   checkIsInstructor, 
+//   upload.single('thumbnail'), 
+//   createCourse
+// );
+router.post(
+  '/',
+  checkIsInstructor,
+  upload.fields([
+    { name: 'thumbnail', maxCount: 1 },
+    { name: 'video', maxCount: 1 },
+  ]),
   createCourse
 );
 
