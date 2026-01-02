@@ -11,7 +11,7 @@ const {
 const { protect, restrictTo } = require('../middlewares/auth.middleware');
 
 // Webhook route (no authentication needed)
-router.post('/webhook', express.raw({ type: 'application/json' }), handleWebhook);
+// router.post('/webhook', express.raw({ type: 'application/json' }), handleWebhook);
 
 // Protected routes
 router.use(protect);

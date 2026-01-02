@@ -6,7 +6,7 @@ A complete, production-ready backend for an online learning platform built with 
 
 - 🔐 JWT Authentication with role-based access (Student, Instructor, Admin)
 - 📚 Complete Course Management System
-- 🎥 Video Lecture Upload with Cloudinary Integration
+- 🎥 Video Lecture Upload with Cloudinary Integration or AWS S3 Buckets
 - 💳 Payment Processing with Stripe Integration
 - 📊 Progress Tracking & Enrollment Management
 - ⭐ Course Reviews & Ratings
@@ -18,7 +18,7 @@ A complete, production-ready backend for an online learning platform built with 
 - **Framework:** Express.js
 - **Database:** MongoDB with Mongoose ODM
 - **Authentication:** JWT (JSON Web Tokens)
-- **File Storage:** Cloudinary
+- **File Storage:** Cloudinary / AWS S3
 - **Payment:** Stripe
 - **Security:** Helmet, CORS, Rate Limiting, XSS Protection
 

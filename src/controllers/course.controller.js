@@ -6,6 +6,21 @@ const ApiError = require('../utils/ApiError');
 const ApiResponse = require('../utils/ApiResponse');
 const { uploadImage, uploadVideo } = require('../services/cloudinary.service');
 
+const getCourses = async(req,res,next)=>{
+  try {
+    const courses = await Course.find()
+      .populate('instructor', 'name email profilePicture')
+      .populate('lectures');
+      console.log("courses->",courses)
+    res.status(200).json(
+      ApiResponse.success('Courses retrieved successfully', { courses }).toJSON()
+    );
+  } catch (error) {
+    next(error);
+  }
+}
+// getCourses();
+
 const getAllCourses = async (req, res, next) => {
   try {
     const { 
@@ -74,6 +89,7 @@ const getCourseById = async (req, res, next) => {
         path: 'lectures',
         options: { sort: { position: 1 } }
       });
+      console.log("course->",course)
 
     if (!course) {
       return next(ApiError.notFound('Course not found'));
@@ -232,6 +248,73 @@ const getCourseById = async (req, res, next) => {
 //   }
 // };
 
+// const createCourse = async (req, res, next) => {
+//   try {
+//     const {
+//       title,
+//       description,
+//       price,
+//       category,
+//       level,
+//       requirements,
+//       learningOutcomes
+//     } = req.body;
+
+//     if (req.user.role !== 'instructor' && req.user.role !== 'admin') {
+//       return next(ApiError.forbidden('Only instructors can create courses'));
+//     }
+
+//     // 📂 FILES
+//     const thumbnailFile = req.files?.thumbnail?.[0];
+//     const videoFile = req.files?.video?.[0]; // 👈 SAME PATTERN
+//     console.log("videoFile->",videoFile)
+
+//     // ❌ Thumbnail required
+//     if (!thumbnailFile) {
+//       return next(ApiError.badRequest('Please provide course thumbnail'));
+//     }
+
+//     // 🖼️ Upload Thumbnail (IMAGE)
+//     const thumbnailUpload = await uploadImage(
+//       thumbnailFile.buffer.toString('base64')
+//     );
+
+//     // 🎥 Upload Video (OPTIONAL)
+//     let introVideoUrl = '';
+//     if (videoFile) {
+//       const videoUpload = await uploadVideo( // 👈 ya cloudinary directly
+//         videoFile.buffer.toString('base64')
+//       );
+//       introVideoUrl = videoUpload.url;
+//     }
+
+//     const course = await Course.create({
+//       title,
+//       description,
+//       shortDescription: description.substring(0, 200),
+//       price: parseFloat(price),
+//       category,
+//       level,
+//       thumbnail: thumbnailUpload.url,
+//       introVideo: introVideoUrl, // 👈 NEW FIELD
+//       instructor: req.user._id,
+//       requirements: requirements ? JSON.parse(requirements) : [],
+//       learningOutcomes: learningOutcomes ? JSON.parse(learningOutcomes) : [],
+//       isPublished: false
+//     });
+
+//     await req.user.updateOne({
+//       $addToSet: { createdCourses: course._id }
+//     });
+
+//     res.status(201).json(
+//       ApiResponse.success('Course created successfully', { course }).toJSON()
+//     );
+
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 const createCourse = async (req, res, next) => {
   try {
     const {
@@ -248,10 +331,13 @@ const createCourse = async (req, res, next) => {
       return next(ApiError.forbidden('Only instructors can create courses'));
     }
 
-    // 📂 FILES
+    // 📂 FILES - 'video' की जगह 'introVideo' check करें
     const thumbnailFile = req.files?.thumbnail?.[0];
-    const videoFile = req.files?.video?.[0]; // 👈 SAME PATTERN
-    console.log("videoFile->",videoFile)
+    const introVideoFile = req.files?.introVideo?.[0]; // 'video' से 'introVideo' में change
+    console.log("Files received:", {
+      thumbnail: thumbnailFile ? "present" : "missing",
+      introVideo: introVideoFile ? "present" : "missing"
+    });
 
     // ❌ Thumbnail required
     if (!thumbnailFile) {
@@ -265,11 +351,17 @@ const createCourse = async (req, res, next) => {
 
     // 🎥 Upload Video (OPTIONAL)
     let introVideoUrl = '';
-    if (videoFile) {
-      const videoUpload = await uploadVideo( // 👈 ya cloudinary directly
-        videoFile.buffer.toString('base64')
-      );
-      introVideoUrl = videoUpload.url;
+    if (introVideoFile) {
+      try {
+        const videoUpload = await uploadVideo(
+          introVideoFile.buffer.toString('base64')
+        );
+        introVideoUrl = videoUpload.url;
+        console.log("Intro video uploaded successfully:", introVideoUrl);
+      } catch (videoError) {
+        console.error("Video upload failed:", videoError);
+        // Continue without video if upload fails
+      }
     }
 
     const course = await Course.create({
@@ -280,7 +372,7 @@ const createCourse = async (req, res, next) => {
       category,
       level,
       thumbnail: thumbnailUpload.url,
-      introVideo: introVideoUrl, // 👈 NEW FIELD
+      introVideo: introVideoUrl,
       instructor: req.user._id,
       requirements: requirements ? JSON.parse(requirements) : [],
       learningOutcomes: learningOutcomes ? JSON.parse(learningOutcomes) : [],
@@ -296,10 +388,10 @@ const createCourse = async (req, res, next) => {
     );
 
   } catch (error) {
+    console.error("Create course error:", error);
     next(error);
   }
 };
-
 
 
 
@@ -553,5 +645,6 @@ module.exports = {
   unpublishCourse,
   getCourseReviews,
   addCourseReview,
+  getCourses,
   getInstructorCourses
 };

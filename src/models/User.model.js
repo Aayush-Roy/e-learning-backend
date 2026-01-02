@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
 
 // Virtual for getting enrollment count
 userSchema.virtual('enrollmentCount').get(function() {
-  return this.enrolledCourses.length;
+  return this.enrolledCourses?.length;
 });
 
 // Hash password before saving

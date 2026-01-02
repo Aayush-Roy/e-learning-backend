@@ -9,12 +9,12 @@ GET https://e-learning-backend-flax.vercel.app/api/v1/health
 
 ### Register a new student
 # POST http://localhost:5000/api/v1/auth/register
-POST https://e-learning-backend-flax.vercel.app/api/v1/auth/register
+POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
 
 {
   "name": "John Student",
-  "email": "student3@example.com",
+  "email": "student5@example.com",
   "password": "password123",
   "role": "student"
 }
@@ -35,20 +35,21 @@ POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "email": "instructor@example.com",
-  "password": "password123"
+  "email": "aayush@gmail.com",
+  "password": "123456"
 }
 
 ### Get current user profile
 GET http://localhost:5000/api/v1/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGNlYzBmZDJiNjJhOTFmYjU5OTkxMCIsImlhdCI6MTc2NjY0ODg0NywiZXhwIjoxNzY3MjUzNjQ3fQ.SOyV_n1kmpYuhttzkpBOncrdPbo4-mms_8B6WpLwni0
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU0ODExZTc3YmYwYzc4ZmEyNjI4MSIsImlhdCI6MTc2Njc0MjMzOSwiZXhwIjoxNzY3MzQ3MTM5fQ.FV5bh3PhJu6ZEjep0KB_x41Eqq5igVDCN4pAnJLpuI4
 ### Get all courses (public)
 GET http://localhost:5000/api/v1/courses
+
+### Get courses with filters
 GET http://localhost:5000/api/v1/courses?category=web%20development&level=beginner
 
 ### Get single course
-GET http://localhost:5000/api/v1/courses/COURSE_ID_HERE
+GET http://localhost:5000/api/v1/courses/694e58bebe84e8baa32ec2c9
 
 ### Create a new course (instructor only)
 # POST http://localhost:5000/api/v1/courses
@@ -83,21 +84,21 @@ GET http://localhost:5000/api/v1/courses/COURSE_ID_HERE
 # ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 POST http://localhost:5000/api/v1/courses
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGNlYzBmZDJiNjJhOTFmYjU5OTkxMCIsImlhdCI6MTc2NjY0ODg0NywiZXhwIjoxNzY3MjUzNjQ3fQ.SOyV_n1kmpYuhttzkpBOncrdPbo4-mms_8B6WpLwni0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU1ODg4YmU4NGU4YmFhMzJlYzJjNiIsImlhdCI6MTc2Njc0MjE1MywiZXhwIjoxNzY3MzQ2OTUzfQ.xJJUaQqPTJQa4MlAkQ-P9YjCQ9vFVvuGVsORPYLtF2o
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
 
 ------WebKitFormBoundary
 Content-Disposition: form-data; name="title"
 
-Complete Node.js Bootcamp
+Complete MERN Full Stack Bootcamp
 ------WebKitFormBoundary
 Content-Disposition: form-data; name="description"
 
-Learn Node.js from scratch with real-world projects
+Learn MERN Stack from scratch with real-world projects
 ------WebKitFormBoundary
 Content-Disposition: form-data; name="price"
 
-49.99
+79.99
 ------WebKitFormBoundary
 Content-Disposition: form-data; name="category"
 
@@ -110,7 +111,7 @@ beginner
 Content-Disposition: form-data; name="thumbnail"; filename="thumbnail.jpg"
 Content-Type: image/jpeg
 
-< ./uploads/thumbnail.jpg
+< ./uploads/thumbnail2.jpg
 ------WebKitFormBoundary
 Content-Disposition: form-data; name="video"; filename="intro.mp4"
 Content-Type: video/mp4
@@ -120,25 +121,25 @@ Content-Type: video/mp4
 
 
 ### Get course lectures
-GET http://localhost:5000/api/v1/lectures/course/COURSE_ID_HERE
+GET http://localhost:5000/api/v1/lectures/course/694e58bebe84e8baa32ec2c9
 
 ### Create a lecture (instructor only)
-POST http://localhost:5000/api/v1/lectures/course/COURSE_ID_HERE
-Authorization: Bearer INSTRUCTOR_TOKEN_HERE
+POST http://localhost:5000/api/v1/lectures/course/694e58bebe84e8baa32ec2c9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU1ODg4YmU4NGU4YmFhMzJlYzJjNiIsImlhdCI6MTc2Njc0MjE1MywiZXhwIjoxNzY3MzQ2OTUzfQ.xJJUaQqPTJQa4MlAkQ-P9YjCQ9vFVvuGVsORPYLtF2o
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="title"
 
-Introduction to Node.js
+Introduction to HTTP Architecture
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="description"
 
-Learn the basics of Node.js and its architecture
+Learn the basics of HTTP and its architecture
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="duration"
 
-25
+5
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="isPreview"
 
@@ -146,39 +147,39 @@ true
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="position"
 
-1
+2
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="video"; filename="lecture1.mp4"
 Content-Type: video/mp4
 
-< ./path-to-video.mp4
+< ./uploads/lecture1.mp4
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### Create payment intent
 POST http://localhost:5000/api/v1/payments/create-checkout
-Authorization: Bearer STUDENT_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU0ODExZTc3YmYwYzc4ZmEyNjI4MSIsImlhdCI6MTc2Njc0MjMzOSwiZXhwIjoxNzY3MzQ3MTM5fQ.FV5bh3PhJu6ZEjep0KB_x41Eqq5igVDCN4pAnJLpuI4
 Content-Type: application/json
 
 {
-  "courseId": "COURSE_ID_HERE"
+  "courseId": "694e58bebe84e8baa32ec2c9"
 }
 
 ### Verify payment
 POST http://localhost:5000/api/v1/payments/verify
-Authorization: Bearer STUDENT_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU0ODExZTc3YmYwYzc4ZmEyNjI4MSIsImlhdCI6MTc2Njc0MjMzOSwiZXhwIjoxNzY3MzQ3MTM5fQ.FV5bh3PhJu6ZEjep0KB_x41Eqq5igVDCN4pAnJLpuI4
 Content-Type: application/json
 
 {
-  "paymentIntentId": "PAYMENT_INTENT_ID_HERE"
+  "paymentIntentId": "pi_3SiY1PQMXMkq3TW20JaANBUf"
 }
 
 ### Get my payments
 GET http://localhost:5000/api/v1/payments/my-payments
-Authorization: Bearer STUDENT_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU0ODExZTc3YmYwYzc4ZmEyNjI4MSIsImlhdCI6MTc2Njc0MjMzOSwiZXhwIjoxNzY3MzQ3MTM5fQ.FV5bh3PhJu6ZEjep0KB_x41Eqq5igVDCN4pAnJLpuI4
 
 ### Add course review (student only)
-POST http://localhost:5000/api/v1/courses/COURSE_ID_HERE/reviews
-Authorization: Bearer STUDENT_TOKEN_HERE
+POST http://localhost:5000/api/v1/courses/694e58bebe84e8baa32ec2c9/reviews
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NGU0ODExZTc3YmYwYzc4ZmEyNjI4MSIsImlhdCI6MTc2Njc0MjMzOSwiZXhwIjoxNzY3MzQ3MTM5fQ.FV5bh3PhJu6ZEjep0KB_x41Eqq5igVDCN4pAnJLpuI4
 Content-Type: application/json
 
 {
@@ -204,7 +205,7 @@ Authorization: Bearer INSTRUCTOR_TOKEN_HERE
 
 ### Get user enrollments
 GET http://localhost:5000/api/v1/users/USER_ID_HERE/enrollments
-Authorization: Bearer TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NTY1YzAwNTg0NThhYmM4ZmM2NTBkNiIsImlhdCI6MTc2NzMyODM4NywiZXhwIjoxNzY3OTMzMTg3fQ.zsXmSIT6QbViCeV9W2sJZtoBv4z7xFBnbDqJ53UxVx8
 
 ### Change password
 PUT http://localhost:5000/api/v1/auth/change-password

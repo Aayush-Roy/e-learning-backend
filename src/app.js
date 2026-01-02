@@ -15,7 +15,7 @@ const paymentRoutes = require('./routes/payment.routes');
 
 const { errorHandler } = require('./middlewares/error.middleware');
 const ApiError = require('./utils/ApiError');
-
+const { handleWebhook } = require('./controllers/payment.controller');
 const app = express();
 
 // Security middleware
@@ -23,7 +23,7 @@ app.use(helmet());
 
 // CORS configuration for React Native
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
 }));
 // console.log("--->",process.env.MONGODB_URI)
@@ -34,6 +34,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use('/api', limiter);
+
+app.post(
+  '/api/v1/webhook/stripe',
+  express.raw({ type: 'application/json' }),
+  handleWebhook
+);
 
 // Body parser
 app.use(express.json({ limit: '10mb' }));

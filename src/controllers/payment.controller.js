@@ -152,7 +152,8 @@ const handleWebhook = async (req, res, next) => {
 
 const handleSuccessfulPayment = async (paymentIntent) => {
   try {
-    await confirmPayment(paymentIntent.id);
+    // await confirmPayment(paymentIntent.id);
+    await confirmPayment(paymentIntent)
   } catch (error) {
     console.error('Error handling successful payment:', error);
   }

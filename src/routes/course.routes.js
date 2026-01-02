@@ -11,7 +11,8 @@ const {
   unpublishCourse,
   getCourseReviews,
   addCourseReview,
-  getInstructorCourses
+  getInstructorCourses,
+  getCourses
 } = require('../controllers/course.controller');
 const {
   protect,
@@ -25,7 +26,8 @@ const {
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Public routes
-router.get('/', getAllCourses);
+// router.get('/', getAllCourses);
+router.get('/', getCourses);
 router.get('/:id', getCourseById);
 router.get('/:id/reviews', getCourseReviews);
 
@@ -43,7 +45,7 @@ router.post(
   checkIsInstructor,
   upload.fields([
     { name: 'thumbnail', maxCount: 1 },
-    { name: 'video', maxCount: 1 },
+    { name: 'introVideo', maxCount: 1 },
   ]),
   createCourse
 );
